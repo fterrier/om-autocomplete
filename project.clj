@@ -22,12 +22,10 @@
               :source-paths ["bootstrap/src"]
               :compiler {
                 :output-to "bootstrap/app.js"
-                :source-map "bootstrap/app.js.map"
                 :optimizations :advanced}}
 
              {:id "movies"
               :source-paths ["movies/src"]
               :compiler {
                 :output-to "movies/app.js"
-                :source-map "movies/app.js.map"
                 :optimizations :advanced}}]})
