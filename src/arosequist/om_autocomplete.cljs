@@ -66,7 +66,7 @@
                 (let [{:keys [input-focus-ch]} (om/get-state owner)]
                   (when input-focus-ch (wait-on-channel input-focus-ch #(.focus (om/get-node owner "input"))))))
     om/IRenderState
-    (render-state [_ {:keys [focus-ch value-ch highlight-ch select-ch value highlighted-index mouse? displayed?]}]
+    (render-state [_ {:keys [focus-ch value-ch highlight-ch select-ch value highlighted-index mouse? displayed? style]}]
                   (dom/input
                     #js {:id id
                          :className class-name
@@ -76,6 +76,7 @@
                          :spellCheck "false"
                          :value value
                          :ref "input"
+                         :style style
                          :onFocus (fn [e]
                                     (put! focus-ch true)
                                     (.preventDefault e))
@@ -216,7 +217,7 @@
                       (when suggestions-ch (close! suggestions-ch)))))
     om/IRenderState
     (render-state [_ {:keys [focus-ch value-ch highlight-ch select-ch mouse-ch value
-                             highlighted-index loading? focused? mouse? suggestions]}]
+                             highlighted-index loading? focused? mouse? suggestions input-state]}]
                   (om/build container-view cursor
                             {:state
                              {:input-component
@@ -229,7 +230,8 @@
                                          :state {:value             value
                                                  :highlighted-index highlighted-index
                                                  :displayed?        (> (count suggestions) 0)
-                                                 :mouse?            mouse?}
+                                                 :mouse?            mouse?
+                                                 :style             (:style input-state)}
                                          :opts (dissoc input-opts :input-focus-ch)})
                               :results-component
                               (let [results-view (if-not (nil? results) results results-default)]
